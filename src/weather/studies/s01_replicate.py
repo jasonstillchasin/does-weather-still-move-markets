@@ -16,7 +16,7 @@ from weather.features.daylight import sad_fall
 from weather.features.deseason import fullsample_anomaly
 from weather.models.regress import logit_coef, ols_coef
 from weather.panel import calendar_controls, city_weather
-from weather.studies.common import OUT, fmt_row, write_table
+from weather.studies.common import fmt_row, write_table
 
 
 def run() -> list[dict]:
@@ -28,7 +28,8 @@ def run() -> list[dict]:
     win = w.loc["1982-01-01":"1997-12-31", "cloud"]
     hs = pd.DataFrame({"r": r}).join(fullsample_anomaly(win).rename("cloud_hs"), how="inner")
     e = logit_coef(hs, "r", ["cloud_hs"], "cloud_hs", -1)
-    rows.append(dict(test="HS 2003 NYC logit (1982-97)", pred="<0", **vars(e), passed=e.coef < 0 and e.p_one < 0.10))
+    rows.append(dict(test="HS 2003 NYC logit (1982-97)", pred="<0", **vars(e),
+                     passed=e.coef < 0 and e.p_one < 0.10))
     e = ols_coef(hs, "r", ["cloud_hs"], "cloud_hs", -1)
     rows.append(dict(test="HS 2003 NYC OLS (1982-97)", pred="<0", **vars(e), passed=None))
 

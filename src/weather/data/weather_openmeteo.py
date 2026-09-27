@@ -27,7 +27,14 @@ def _slug(name: str) -> str:
 
 def era5_daily(name: str, lat: float, lon: float, tz: str, start: str = "1950-01-01",
                end: str = "2026-08-31") -> pd.DataFrame:
-    """Daily 06:00-16:00 local cloud (oktas) and temperature from ERA5 hourly data."""
+    """Daily 06:00-16:00 local cloud (oktas) and temperature from ERA5 hourly data.
+
+    Prefers the Copernicus CDS copy (deviation D5) when it has been fetched.
+    """
+    from weather.data import era5_cds
+
+    if era5_cds.path_for(name).exists():
+        return pd.read_parquet(era5_cds.path_for(name))
     path = CACHE / "era5" / f"{_slug(name)}.parquet"
     if path.exists():
         return pd.read_parquet(path)
