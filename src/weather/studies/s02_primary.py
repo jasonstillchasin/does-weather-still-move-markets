@@ -137,6 +137,14 @@ def main() -> None:
     holm = multipletests([r["p_one"] for r in rows], alpha=0.05, method="holm")
     for r, rej, padj in zip(rows, holm[0], holm[1], strict=True):
         r["p_holm"], r["holm_reject"] = float(padj), bool(rej)
+    if "--no-placebo" in sys.argv:
+        for r in rows:
+            r["passed"] = None
+        write_table(rows, "primary_hac", "Primary tests, HAC + Holm only (placebo pending)")
+        for r in rows:
+            print(fmt_row(r), f"holm={r['p_holm']:.3f} reject={r['holm_reject']}",
+                  f"CI95=[{r['lo95']:+.4f},{r['hi95']:+.4f}]")
+        return
     plac = {r["test"]: r for r in placebo_percentiles(p)}
     for r in rows:
         pl = plac.get(r["test"])
