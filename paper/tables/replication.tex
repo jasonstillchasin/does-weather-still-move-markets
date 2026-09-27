@@ -1,0 +1,11 @@
+\begin{table}[htbp]\centering\small
+\caption{Replication gate: pre-2001 data only}
+\begin{tabular}{lcrrrrrc}\toprule
+Test & Pred. & $\beta$ & SE & $t$ & $p_{1}$ & $N$ & Verdict \\ \midrule
+HS 2003 NYC logit (1982-97) & $<$0 & -0.1141 & 0.0320 & -3.56 & 0.000 & 4012 & pass \\
+HS 2003 NYC OLS (1982-97) & $<$0 & -0.0201 & 0.0160 & -1.26 & 0.105 & 4012 & -- \\
+KKL 2003 US SAD (1928-2000) & $>$0 & 0.0215 & 0.0078 & 2.77 & 0.003 & 19411 & pass \\
+KKL 2003 US FALL (1928-2000) & $<$0 & -0.0501 & 0.0217 & -2.31 & 0.011 & 19411 & pass \\
+KKL 2003 US SAD + weather (1955-2000) & $>$0 & 0.0263 & 0.0088 & 3.00 & 0.001 & 9389 & -- \\
+KKL 2003 US FALL + weather (1955-2000) & $<$0 & -0.0334 & 0.0228 & -1.46 & 0.072 & 9389 & -- \\
+\bottomrule\end{tabular}\end{table}
