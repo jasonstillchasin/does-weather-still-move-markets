@@ -1,0 +1,17 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Cloud-timed SPY open-to-close strategy, 1993--2026. Long SPY from the open to the close on days whose 06:00--10:00 New York cloud anomaly is below zero (``sunny''), or above it (``cloudy''); otherwise in cash (zero return). Costs are per round trip.}
+\label{tab:strategy}
+\begin{tabular}{lrrrr}\toprule
+Rule & Cost (bp) & Ann.\ return (\%) & Sharpe & Days held \\ \midrule
+every day & 0 & +0.71 & +0.05 & 8,430 \\
+sunny mornings only & 0 & +0.45 & +0.05 & 3,381 \\
+cloudy mornings only & 0 & +0.25 & +0.02 & 5,049 \\
+every day & 1 & -1.81 & -0.12 & 8,430 \\
+sunny mornings only & 1 & -0.56 & -0.06 & 3,381 \\
+cloudy mornings only & 1 & -1.25 & -0.11 & 5,049 \\
+every day & 2 & -4.33 & -0.29 & 8,430 \\
+sunny mornings only & 2 & -1.57 & -0.17 & 3,381 \\
+cloudy mornings only & 2 & -2.76 & -0.23 & 5,049 \\
+\midrule
+\multicolumn{5}{l}{Sunny minus cloudy mornings: +0.28 bp per day ($t = 0.13$), $N = 8,430$} \\
+\bottomrule\end{tabular}\end{table}

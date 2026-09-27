@@ -1,0 +1,44 @@
+\begin{table}[htbp]\centering\small
+\caption{Robustness of the weather tests (exploratory)}
+\begin{tabular}{lcrrrrrc}\toprule
+Test & Pred. & $\beta$ & SE & $t$ & $p_{1}$ & $N$ & Verdict \\ \midrule
+H1-US station (primary) & $<$0 & -0.0213 & 0.0078 & -2.72 & 0.003 & 17736 & -- \\
+H1-US ERA5 weather & $<$0 & -0.0194 & 0.0076 & -2.56 & 0.005 & 18036 & -- \\
+H1-US CHI weather (ERA5) & $<$0 & -0.0124 & 0.0077 & -1.61 & 0.054 & 18036 & -- \\
+H1-US full-sample deseasonalisation & $<$0 & -0.0207 & 0.0071 & -2.90 & 0.002 & 19028 & -- \\
+H1-US logit up/down & $<$0 & -0.0579 & 0.0155 & -3.73 & 0.000 & 17736 & -- \\
+H1-US GARCH(1,1)-t mean & $<$0 & -0.0210 & 0.0049 & -4.24 & 0.000 & 17736 & -- \\
+H1-AU station (primary) & $<$0 & -0.0177 & 0.0095 & -1.87 & 0.031 & 10111 & -- \\
+H1-AU ERA5 weather & $<$0 & -0.0147 & 0.0087 & -1.68 & 0.046 & 10633 & -- \\
+H1-AU MEL weather (ERA5) & $<$0 & 0.0024 & 0.0075 & 0.32 & 0.625 & 10633 & -- \\
+H1-AU full-sample deseasonalisation & $<$0 & -0.0203 & 0.0097 & -2.10 & 0.018 & 10111 & -- \\
+H1-AU AU price-only returns & $<$0 & -0.0176 & 0.0095 & -1.86 & 0.031 & 10111 & -- \\
+H1-AU logit up/down & $<$0 & -0.0411 & 0.0233 & -1.76 & 0.039 & 10111 & -- \\
+H1-AU GARCH(1,1)-t mean & $<$0 & -0.0105 & 0.0068 & -1.54 & 0.062 & 10111 & -- \\
+H2-US station (primary) & $<$0 & -0.0195 & 0.0166 & -1.18 & 0.119 & 17736 & -- \\
+H2-US ERA5 weather & $<$0 & -0.0140 & 0.0159 & -0.88 & 0.189 & 18036 & -- \\
+H2-US CHI weather (ERA5) & $<$0 & -0.0284 & 0.0169 & -1.69 & 0.046 & 18036 & -- \\
+H2-US full-sample deseasonalisation & $<$0 & -0.0197 & 0.0166 & -1.19 & 0.118 & 19028 & -- \\
+H2-US break at 2001-01 (HS working paper) & $<$0 & -0.0043 & 0.0162 & -0.27 & 0.395 & 17736 & -- \\
+H2-AU station (primary) & $<$0 & 0.0007 & 0.0121 & 0.06 & 0.523 & 10111 & -- \\
+H2-AU ERA5 weather & $<$0 & -0.0010 & 0.0109 & -0.10 & 0.462 & 10633 & -- \\
+H2-AU MEL weather (ERA5) & $<$0 & -0.0006 & 0.0098 & -0.06 & 0.477 & 10633 & -- \\
+H2-AU full-sample deseasonalisation & $<$0 & -0.0010 & 0.0127 & -0.08 & 0.469 & 10111 & -- \\
+H2-AU AU price-only returns & $<$0 & 0.0006 & 0.0121 & 0.05 & 0.521 & 10111 & -- \\
+H2-AU break at 2001-01 (HS working paper) & $<$0 & -0.0061 & 0.0113 & -0.54 & 0.295 & 10111 & -- \\
+H4-US station (primary) & $<$0 & 0.0013 & 0.0068 & 0.19 & 0.574 & 18538 & -- \\
+H4-US ERA5 weather & $<$0 & 0.0000 & 0.0070 & 0.00 & 0.502 & 18036 & -- \\
+H4-US CHI weather (ERA5) & $<$0 & 0.0074 & 0.0066 & 1.13 & 0.870 & 18036 & -- \\
+H4-US full-sample deseasonalisation & $<$0 & -0.0006 & 0.0067 & -0.09 & 0.463 & 19938 & -- \\
+H4-US logit up/down & $<$0 & 0.0209 & 0.0143 & 1.46 & 0.928 & 18538 & -- \\
+H4-US GARCH(1,1)-t mean & $<$0 & 0.0056 & 0.0044 & 1.28 & 0.899 & 18538 & -- \\
+H4-AU station (primary) & $<$0 & 0.0067 & 0.0078 & 0.85 & 0.803 & 10610 & -- \\
+H4-AU ERA5 weather & $<$0 & 0.0080 & 0.0081 & 0.98 & 0.837 & 10633 & -- \\
+H4-AU MEL weather (ERA5) & $<$0 & 0.0078 & 0.0076 & 1.02 & 0.847 & 10633 & -- \\
+H4-AU full-sample deseasonalisation & $<$0 & 0.0049 & 0.0083 & 0.60 & 0.725 & 10610 & -- \\
+H4-AU AU price-only returns & $<$0 & 0.0068 & 0.0078 & 0.87 & 0.808 & 10610 & -- \\
+H4-AU logit up/down & $<$0 & 0.0105 & 0.0200 & 0.52 & 0.700 & 10610 & -- \\
+H4-AU GARCH(1,1)-t mean & $<$0 & 0.0007 & 0.0057 & 0.12 & 0.547 & 10610 & -- \\
+RAIN-US (06-16h rain dummy) & $<$0 & -0.0542 & 0.0189 & -2.86 & 0.002 & 17290 & -- \\
+RAIN-AU (06-16h rain dummy) & $<$0 & -0.0000 & 0.0000 & -0.59 & 0.279 & 5715 & -- \\
+\bottomrule\end{tabular}\end{table}

@@ -10,3 +10,5 @@ paper/*.out
 paper/*.bbl
 paper/*.blg
 .DS_Store
+paper/build.log
+paper/*.toc

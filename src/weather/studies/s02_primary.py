@@ -19,7 +19,7 @@ from weather.data.placebo_cities import CITIES, PLACEBO_CITIES
 from weather.data.weather_openmeteo import era5_daily
 from weather.features.deseason import trailing_anomaly
 from weather.models.regress import ols_coef
-from weather.panel import CONTROLS, market_panel
+from weather.panel import CONTROLS, city_weather, market_panel
 from weather.studies.common import OUT, fmt_row, write_table
 
 
@@ -107,8 +107,9 @@ def placebo_percentiles(p: dict[str, pd.DataFrame]) -> list[dict]:
                        for w in placebo_w.values()])
         # Share of placebos at or beyond the real ERA5 beta in the predicted direction.
         pct_city = float(np.mean(direction * bs >= direction * b_real))
-        # Year-shifted station weather, k = 1..30.
-        station = p[market][[wvar]]
+        # Year-shifted station weather, k = 1..30, shifted on the full calendar-day series so
+        # every trading day keeps a match (deviation D6).
+        station = city_weather(home[market])[[wvar]].dropna()
         shifted = []
         for k in range(1, 31):
             s = station.copy()
