@@ -4,7 +4,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from weather.data.placebo_cities import CITIES, PLACEBO_CITIES
+from weather.data.exchanges import EXCHANGES
+from weather.data.placebo_cities import CITIES, PLACEBO_CITIES, km
 from weather.features.daylight import night_hours, sad_fall
 from weather.features.deseason import trailing_anomaly
 
@@ -72,3 +73,14 @@ def test_placebo_cities_rule():
         for ex in ("NYC", "SYD"):
             elat, elon, _ = CITIES[ex]
             assert _km(lat, lon, elat, elon) > 1000, (name, ex)
+
+
+def test_km_matches_known_distance():
+    assert abs(km(40.71, -74.01, 51.51, -0.13) - 5570) < 30  # New York-London
+
+
+def test_exchange_list_rule():
+    assert len(EXCHANGES) == 28
+    assert len({e[0] for e in EXCHANGES}) == 28
+    south = {e[0] for e in EXCHANGES if e[1] < 0}
+    assert south == {"Sydney", "Jakarta", "Sao Paulo", "Buenos Aires", "Wellington"}

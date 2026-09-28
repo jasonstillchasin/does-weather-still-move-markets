@@ -120,3 +120,13 @@ CITIES: dict[str, tuple[float, float, str]] = {
     "MEL": (-37.81, 144.96, "Australia/Melbourne"),
     "CHI": (41.88, -87.63, "America/Chicago"),
 }
+
+
+def km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance in kilometres."""
+    import math
+
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    c = (math.sin(p1) * math.sin(p2)
+         + math.cos(p1) * math.cos(p2) * math.cos(math.radians(lon2 - lon1)))
+    return 6371 * math.acos(min(1.0, max(-1.0, c)))
