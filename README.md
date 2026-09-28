@@ -26,3 +26,10 @@ keys and is cached under `data/cache/` (git-ignored).
 | Figures | `s04_figures` | `paper/figs/` |
 | Paper tables | `s06_tables` | `paper/tables/paper_*.tex` |
 | Paper | `make paper` | `paper/main.pdf` |
+
+## License
+
+Code is released under the MIT License (see `LICENSE`). The raw data are not redistributed:
+each source is downloaded by the scripts under its own terms (Ken French Data Library, Yahoo
+Finance, NOAA GHCNh/ISD, Iowa Environmental Mesonet, and Copernicus ERA5, which requires
+attribution).
