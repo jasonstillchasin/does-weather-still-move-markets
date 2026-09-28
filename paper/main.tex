@@ -19,19 +19,20 @@ before any post-2003 regression was estimated.}}
 
 \begin{abstract}
 \noindent
-We re-examine the classic weather and seasonal-mood effects in stock returns with a
-pre-registered design, free and replicable data, and a placebo-city inference procedure that
-directly addresses the concern that weather effects are data-mined. Using daily US market returns
-(1955--2026) and Australian returns (1984--2026), we first replicate the original results of
-\citet{hirshleifer2003} and \citet{kamstra2003} on their own samples. Of nine pre-registered
-primary tests, one survives multiple-testing correction and placebo inference: New York cloud
-cover lowers same-day US returns by about 2 basis points per standard deviation over 1955--2026
-(Holm $p=0.029$), and none of 100 placebo cities produces an effect as large. The post-publication
-US estimate (2003--2026) is of similar size but imprecise, while the Australian post-publication
-effect is close to zero and rules out effects larger than about 2.3 basis points. Seasonal
-affective disorder (SAD) effects do not appear in Australia, where seasons are reversed; temperature
-has no effect on the market, although warm days lower energy and utility returns. The weather
-effect is real in the long US sample, economically tiny, and not exploitable after trading costs.
+We re-examine weather and seasonal-mood effects in stock returns with two pre-registered studies,
+free and replicable data, and a placebo-city inference procedure that directly addresses the
+concern that weather effects are data-mined. Study~1 uses daily US (1955--2026) and Australian
+(1984--2026) returns. After replicating \citet{hirshleifer2003} and \citet{kamstra2003} on their
+own samples, one of nine primary tests survives multiple-testing correction and placebo inference:
+New York cloud cover lowers same-day US returns by about 2 basis points per standard deviation
+(Holm $p=0.029$), more than the weather of any of 100 placebo cities. Study~2, pre-registered after
+Study~1, pools 26 further exchanges and seven weather variables. Rain days lower returns (1.6 basis
+points; Holm $p=0.045$, beyond all placebo draws), and high air pressure and sunshine point the same
+way. However, the international cloud effect is absent after the \citet{hirshleifer2003} sample
+ends, and every fair-weather effect is concentrated before 2003. Seasonal affective disorder
+effects do not appear in the southern hemisphere, and temperature does not move markets. Weather
+effects were real but small, and have largely faded since publication; they are not exploitable
+after trading costs.
 \end{abstract}
 
 \noindent\textbf{Keywords:} weather, investor mood, seasonal affective disorder, pre-registration,
@@ -61,7 +62,7 @@ commit to specifications before seeing the new data. And free, long, hourly weat
 any city on Earth make it possible to ask how unusual the New York result is relative to the
 weather in cities that have nothing to do with the US market.
 
-This paper makes three contributions. First, it pre-registers nine primary tests covering cloud
+This paper makes four contributions. First, it pre-registers nine primary tests covering cloud
 cover, temperature and SAD in the US and Australia, their post-publication persistence, a
 market-structure channel and a small-stock channel, together with a decision rule that requires
 both a multiple-testing-adjusted $p$-value and a placebo percentile. Second, it introduces a
@@ -69,7 +70,11 @@ placebo-city test: the same regression is estimated with weather from 100 cities
 and Australia, and the real city's coefficient is ranked within that distribution. Because the
 placebo cities share the seasonal structure of weather but not any plausible link to the market,
 the test speaks directly to the data-mining critique. Third, it uses the reversal of seasons
-between hemispheres to separate a seasonal-mood channel from calendar effects.
+between hemispheres to separate a seasonal-mood channel from calendar effects. Fourth, a second
+study, pre-registered after the first study's results were known and run on 26 exchanges whose
+returns had not been examined, tests seven weather variables (cloud, sunshine, temperature, wind,
+rain, humidity and pressure) and gives an out-of-sample test of the international results of
+\citet{hirshleifer2003}.
 
 The results are mixed in an informative way. The New York cloud effect survives: $-2.1$ basis
 points (bp) per standard deviation of cloud cover over 1955--2026, significant after Holm and
@@ -77,7 +82,9 @@ Romano--Wolf corrections, and more extreme than every one of 100 placebo cities.
 small, not clearly present after 2003, not visible in Australian data after 2003, and not
 exploitable after costs. SAD does not appear in Australia, and temperature does not move the
 market, although warm days lower the returns of energy and utility stocks, consistent with a
-physical demand channel rather than mood.
+physical demand channel rather than mood. Across 26 further exchanges, rain days lower returns and
+high pressure and sunshine raise them, with rain surviving the full decision rule; but these
+effects are concentrated before 2003, and the international cloud effect is absent after 1997.
 
 \section{Hypotheses}
 
@@ -245,6 +252,76 @@ survival as an anomaly.
 
 \input{tables/paper_strategy}
 
+\section{Study 2: Seven weather variables across 26 exchanges}
+\label{sec:study2}
+
+\subsection{Design}
+
+Study~2 was pre-registered (\texttt{prereg/study2\_preregistration.md}) after Study~1 was
+complete, and frozen before any return from the new exchanges was examined. It covers every major
+exchange whose benchmark index has free daily history from 2006 or earlier with fewer than 5\%
+zero-change days: twelve in Europe, nine in Asia, four in the Americas and one in New Zealand. New
+York and Sydney are excluded from the primary tests because their results were already known. For
+every city, seven weather variables come from ERA5 and are processed identically: mean cloud cover,
+solar radiation (``sunshine''), temperature, wind speed, relative humidity and sea-level pressure,
+each as a trailing-climatology $z$-score over 06:00--16:00 local time, plus a rain-day indicator
+($\geq 1$~mm) measured relative to its climatological frequency. Returns are scaled by each index's
+trailing 60-day volatility, so coefficients are in percent of a daily standard deviation, and
+estimated in a pooled regression with exchange fixed effects and Driscoll--Kraay standard errors,
+which allow for correlation across markets on the same day. The decision rule is the same as in
+Study~1. The placebo test gives each exchange the weather of a random city more than 1,000 km
+away, 200 times.
+
+\subsection{Results}
+
+Table~\ref{tab:s2primary} reports the nine primary tests. Rain is supported: a rain day lowers
+returns by 1.6\% of a daily standard deviation (about 1.6 bp at the median volatility; Holm
+$p=0.045$), and no placebo assignment produces an effect as large. High pressure (+1.0 bp per
+standard deviation, Holm $p=0.070$), sunshine (+0.6 bp), cloud ($-0.4$ bp) and humidity ($-0.4$ bp)
+all lie in the extreme tail of their placebo distributions but do not survive the Holm correction,
+so they are inconclusive. Their signs are consistent: fair weather goes with higher returns.
+Temperature, wind and SAD show nothing. The SAD test has little power, however, since only four
+exchanges are in the southern hemisphere.
+
+The out-of-sample cloud test (S2) is clearly negative. Using only data from 1998, after the
+\citet{hirshleifer2003} sample ends, the pooled cloud coefficient is $-0.2$ bp ($t=-0.57$) and sits in
+the middle of its placebo distribution.
+
+\input{tables/paper_s2_primary}
+
+Table~\ref{tab:s2splits} and Figure~\ref{fig:s2decay} show why. Every fair-weather effect is
+concentrated in the period before July 2003. The rain coefficient falls from $-3.8\%$ of a standard
+deviation ($t=-3.9$) to $-0.3\%$ ($t=-0.4$), sunshine from $+1.8\%$ ($t=4.2$) to $-0.1\%$, and cloud
+from $-1.2\%$ ($t=-2.6$) to zero. Pressure declines least, from $+1.5\%$ to $+0.7\%$ ($t=1.5$). The
+effects are found in developed rather than emerging markets and in the northern hemisphere. When all
+seven variables enter one regression, only pressure remains significant ($t=2.1$). This suggests
+that the fair-weather pattern reflects high-pressure weather systems more than any single
+variable.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{figs/s2_decay.pdf}
+\caption{Pooled Study~2 coefficients before and after July 2003, with 95\% Driscoll--Kraay
+confidence intervals.}
+\label{fig:s2decay}
+\end{figure}
+
+\input{tables/paper_s2_splits}
+
+Figure~\ref{fig:s2heatmap} shows the exchange-level estimates. Twelve of the 196 exchange--variable
+tests survive a Benjamini--Hochberg false-discovery rate of 10\%. Pressure effects appear in
+London, Frankfurt, Paris, Zurich and Brussels, but these cities share weather systems, so they are
+closer to a single European finding than to five. Tokyo and Taipei show cloud and sunshine effects
+like New York's. Among the other exploratory results, storm and heat days have no effect on
+returns, and warmer-than-normal days are associated with lower volatility ($t=-2.8$).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.72\textwidth]{figs/s2_heatmap.pdf}
+\caption{Exchange-level $t$-statistics for each weather variable (volatility-scaled returns, HAC
+standard errors). Positive values mean higher returns. Starred cells survive a
+Benjamini--Hochberg false-discovery rate of 10\% across all 196 tests.}
+\label{fig:s2heatmap}
+\end{figure}
+
 \section{Discussion and conclusion}
 
 Pre-registration and placebo inference change how the old weather results should be read. The
@@ -254,7 +331,11 @@ every one of 100 unrelated cities. But it is small, and most of the evidence for
 before 2007. After publication the US estimate is similar in size but imprecise, and the
 Australian estimate is close to zero, with a confidence interval tight enough to rule out effects
 of the size originally reported. The SAD cycle does not appear in Australia, and temperature
-matters only for industries whose cash flows depend on it.
+matters only for industries whose cash flows depend on it. Study~2 generalises the picture. Across
+26 further exchanges, fair weather (no rain, high pressure, sunshine) went with higher returns,
+and rain survives the full pre-registered decision rule. But these effects are concentrated before
+2003, and the international cloud effect of \citet{hirshleifer2003} does not survive out of
+sample.
 
 A cautious reading is that a genuine but small mood effect existed when trading was concentrated
 among people who experienced the local weather, and that it has faded as trading dispersed
@@ -277,7 +358,7 @@ of AI-assisted coding and drafting here.]
 \input{tables/paper_robust_industry}
 
 \section{Deviations from the pre-registration}
-Six deviations were logged in \texttt{prereg/deviations.md}; the table there is authoritative.
+Study~2 had no deviations from its pre-registration. For Study~1, six deviations were logged in \texttt{prereg/deviations.md}; the table there is authoritative.
 D1--D5 were made before the corresponding results were seen. D1: weather sources, because NOAA
 discontinued the ISD-Lite files in 2025. D2: at least three valid hourly reports per day instead of
 four, because Sydney reported three-hourly before 2000. D3: dividend add-back source, because the

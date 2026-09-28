@@ -61,15 +61,21 @@ def weather_anomalies(name: str, lat: float, lon: float, tz: str) -> pd.DataFram
     out = {f"{v}_z": trailing_anomaly(d[v].rename(v)) for v in Z_VARS}
     rain = (d["rain"] >= 1.0).astype(float).where(d["rain"].notna())
     out["rain_a"] = trailing_anomaly(rain.rename("rain"), standardise=False)
-    return pd.DataFrame(out)
+    return _ns(pd.DataFrame(out))
+
+
+def _ns(x):
+    x = x.copy()
+    x.index = pd.DatetimeIndex(x.index).astype("datetime64[ns]")
+    return x
 
 
 def index_returns(source: str) -> pd.Series:
     if source == "FRENCH_MKT":
-        return returns.us_market()
+        return _ns(returns.us_market())
     if source == "AORD_DIV":
-        return returns.au_market()
-    return returns.logret(returns.yahoo_close(source))
+        return _ns(returns.au_market())
+    return _ns(returns.logret(returns.yahoo_close(source)))
 
 
 def scaled(r: pd.Series) -> pd.Series:
@@ -107,7 +113,7 @@ def exchange_frame(city: str, lat: float, tz: str, source: str, us_y: pd.Series,
 
 
 def build_panel() -> tuple[pd.DataFrame, dict[str, pd.DataFrame]]:
-    us_y, _ = scaled(returns.us_market())
+    us_y, _ = scaled(_ns(returns.us_market()))
     weather = {}
     frames = []
     for city, lat, lon, tz, source in EXCHANGES:
