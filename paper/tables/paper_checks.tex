@@ -1,0 +1,25 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Sensitivity checks. Australian tests with price-only returns and with calendar-month fixed effects (which absorb any month-specific dividend add-back exactly), and standard-error bandwidths. Coefficients in bp (Study 2: \% of a daily SD); one-sided $p$.}
+\label{tab:checks}
+\begin{tabular}{lrrrr}\toprule
+Check & $\beta$ & $t$ & $p$ & $N$ \\ \midrule
+corr(dividend add-back, cloud\_z) & \multicolumn{4}{l}{correlation -0.006} \\
+corr(dividend add-back, temp\_z) & \multicolumn{4}{l}{correlation -0.011} \\
+H1-AU total return (primary) & -1.77 & -1.87 & 0.031 & 10,111 \\
+H1-AU price only & -1.76 & -1.86 & 0.031 & 10,111 \\
+H1-AU total return + month FE & -1.85 & -1.93 & 0.027 & 10,111 \\
+H2-AU total return (primary) & +0.07 & +0.06 & 0.523 & 10,111 \\
+H2-AU price only & +0.06 & +0.05 & 0.521 & 10,111 \\
+H2-AU total return + month FE & +0.01 & +0.01 & 0.503 & 10,111 \\
+H3-AU total return (primary) & -1.38 & -1.06 & 0.855 & 10,633 \\
+H3-AU price only & -0.36 & -0.27 & 0.607 & 10,633 \\
+H4-AU total return (primary) & +0.67 & +0.85 & 0.803 & 10,610 \\
+H4-AU price only & +0.68 & +0.87 & 0.808 & 10,610 \\
+H4-AU total return + month FE & +0.64 & +0.82 & 0.794 & 10,610 \\
+H1-US Newey-West lags=5 & -2.13 & -2.72 & 0.003 & 17,736 \\
+H1-US Newey-West lags=10 & -2.13 & -2.65 & 0.004 & 17,736 \\
+H1-US Newey-West lags=20 & -2.13 & -2.61 & 0.005 & 17,736 \\
+S6 Driscoll-Kraay lags=5 & -1.55 & -2.58 & 0.005 & 222,941 \\
+S6 Driscoll-Kraay lags=10 & -1.55 & -2.63 & 0.004 & 222,941 \\
+S6 Driscoll-Kraay lags=20 & -1.55 & -2.66 & 0.004 & 222,941 \\
+\bottomrule\end{tabular}\end{table}

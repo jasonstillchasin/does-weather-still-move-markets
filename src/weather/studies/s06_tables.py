@@ -39,16 +39,17 @@ def primary() -> None:
            r"\caption{Pre-registered primary tests. $\beta$ in basis points per one-standard-"
            r"deviation weather shock (for H3, per hour of night beyond 12). One-sided HAC "
            r"$p$-values in the predicted direction; Holm and Romano--Wolf adjust across the "
-           r"nine tests. Placebo = share of 100 placebo cities with a coefficient at least as "
-           r"extreme (ERA5); Shift = same for 30 year-shifted weather series.}",
+           r"nine tests. Placebo = number of the 100 placebo cities with a coefficient at least as "
+           r"extreme (ERA5); Shift = number of the 30 year-shifted weather series at least as "
+           r"extreme.}",
            r"\label{tab:primary}",
            r"\resizebox{\textwidth}{!}{%", r"\begin{tabular}{llrcrrrrrrl}\toprule",
            r"ID & Hypothesis & $\beta$ & 95\% CI & $t$ & $p_1$ & Holm & R--W & Placebo "
            r"& Shift & Verdict \\ \midrule"]
     for r in rows:
         pl = plac.loc[r["test"]] if r["test"] in plac.index else None
-        pc = f"{pl['pct_city']:.2f}" if pl is not None else "--"
-        ps = f"{pl['pct_yearshift']:.2f}" if pl is not None else "--"
+        pc = f"{round(pl['pct_city'] * 100)}/100" if pl is not None else "--"
+        ps = f"{round(pl['pct_yearshift'] * 30)}/30" if pl is not None else "--"
         out.append(
             f"{r['test']} & {HYP[r['test']]} & {r['coef'] * 100:+.2f} & "
             f"[{r['lo95'] * 100:+.1f}, {r['hi95'] * 100:+.1f}] & {r['t']:+.2f} & "
@@ -92,8 +93,30 @@ def strategy() -> None:
     (TABLES / "paper_strategy.tex").write_text("\n".join(out) + "\n")
 
 
+def checks() -> None:
+    rows = _load("referee_checks")
+    out = [r"\begin{table}[htbp]\centering\footnotesize",
+           r"\caption{Sensitivity checks. Australian tests with price-only returns and with "
+           r"calendar-month fixed effects (which absorb any month-specific dividend add-back "
+           r"exactly), and standard-error bandwidths. Coefficients in bp (Study 2: \% of a daily "
+           r"SD); one-sided $p$.}", r"\label{tab:checks}",
+           r"\begin{tabular}{lrrrr}\toprule",
+           r"Check & $\beta$ & $t$ & $p$ & $N$ \\ \midrule"]
+    for r in rows:
+        if "value" in r and r.get("value") is not None:
+            out.append(f"{_esc(r['check'])} & \\multicolumn{{4}}{{l}}{{correlation "
+                       f"{r['value']:+.3f}}} \\\\")
+            continue
+        b = r["coef_bp"] if r.get("coef_bp") is not None else r["coef_pct_sd"]
+        out.append(f"{_esc(r['check'])} & {b:+.2f} & {r['t']:+.2f} & {_p(r['p_one'])} & "
+                   f"{int(r['n']):,} \\\\")
+    out += [r"\bottomrule\end{tabular}\end{table}"]
+    (TABLES / "paper_checks.tex").write_text("\n".join(out) + "\n")
+
+
 def main() -> None:
     primary()
+    checks()
     simple("replication", "Replication gate (data up to 2000). Pass = predicted sign with "
            "one-sided $p<0.10$.", "tab:replication")
     simple("robust_weather", "Robustness of the weather tests (exploratory; not "

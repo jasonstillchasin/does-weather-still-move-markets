@@ -36,14 +36,14 @@ def primary_table() -> None:
            r"Study 1. $\beta$ is in percent of a daily return standard deviation per one-SD "
            r"weather shock (rain: per rain day relative to its climatological frequency); bp "
            r"converts at the median daily volatility. Driscoll--Kraay standard errors. Placebo = "
-           r"share of 200 random placebo-city assignments at least as extreme.}",
+           r"number of the 200 random placebo-city assignments at least as extreme.}",
            r"\label{tab:s2primary}", r"\resizebox{\textwidth}{!}{%",
            r"\begin{tabular}{llrrrrrrrl}\toprule",
            r"ID & Weather variable & $\beta$ (\% SD) & bp & $t$ & $p$ & Holm & Placebo & $N$ "
            r"& Verdict \\ \midrule"]
     for r in rows:
         pl = "--" if r["pct_placebo"] is None or r["pct_placebo"] != r["pct_placebo"] \
-            else f"{r['pct_placebo']:.3f}"
+            else f"{round(r['pct_placebo'] * 200)}/200"
         out.append(f"{r['test']} & {HYP[r['test']]} & {r['coef'] * 100:+.2f} & "
                    f"{r['bp_at_median_sigma']:+.2f} & {r['t']:+.2f} & {_p(r['p'])} & "
                    f"{_p(r['p_holm'])} & {pl} & {r['n']:,} & {r['verdict'].title()} \\\\")

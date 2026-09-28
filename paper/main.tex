@@ -25,14 +25,14 @@ concern that weather effects are data-mined. Study~1 uses daily US (1955--2026) 
 (1984--2026) returns. After replicating \citet{hirshleifer2003} and \citet{kamstra2003} on their
 own samples, one of nine primary tests survives multiple-testing correction and placebo inference:
 New York cloud cover lowers same-day US returns by about 2 basis points per standard deviation
-(Holm $p=0.029$), more than the weather of any of 100 placebo cities. Study~2, pre-registered after
+(Holm $p=0.029$); none of 100 placebo cities produces an effect as large. Study~2, pre-registered after
 Study~1, pools 26 further exchanges and seven weather variables. Rain days lower returns (1.6 basis
 points; Holm $p=0.045$, beyond all placebo draws), and high air pressure and sunshine point the same
 way. However, the international cloud effect is absent after the \citet{hirshleifer2003} sample
 ends, and every fair-weather effect is concentrated before 2003. Seasonal affective disorder
 effects do not appear in the southern hemisphere, and temperature does not move markets. Weather
-effects were real but small, and have largely faded since publication; they are not exploitable
-after trading costs.
+effects were small, and evidence that they persisted after publication is weak; a simple
+cloud-timed trading strategy is not profitable after plausible transaction costs.
 \end{abstract}
 
 \noindent\textbf{Keywords:} weather, investor mood, seasonal affective disorder, pre-registration,
@@ -79,12 +79,13 @@ rain, humidity and pressure) and gives an out-of-sample test of the internationa
 The results are mixed in an informative way. The New York cloud effect survives: $-2.1$ basis
 points (bp) per standard deviation of cloud cover over 1955--2026, significant after Holm and
 Romano--Wolf corrections, and more extreme than every one of 100 placebo cities. But the effect is
-small, not clearly present after 2003, not visible in Australian data after 2003, and not
-exploitable after costs. SAD does not appear in Australia, and temperature does not move the
+small, imprecisely estimated after 2003, not visible in Australian data after 2003, and a simple
+strategy based on it loses money after costs. SAD does not appear in Australia, and temperature does not move the
 market, although warm days lower the returns of energy and utility stocks, consistent with a
 physical demand channel rather than mood. Across 26 further exchanges, rain days lower returns and
-high pressure and sunshine raise them, with rain surviving the full decision rule; but these
-effects are concentrated before 2003, and the international cloud effect is absent after 1997.
+high pressure and sunshine raise them, with rain surviving the full decision rule; but the
+evidence for these effects comes mainly from before 2003, and the international cloud effect is not
+detectable after 1997.
 
 \section{Hypotheses}
 
@@ -117,21 +118,36 @@ report throughout.
 
 \paragraph{Returns.} US returns are the daily Center for Research in Security Prices (CRSP)
 value-weighted market return (market excess return plus the risk-free rate) from Kenneth French's
-data library; size and industry portfolios come from the same source. Australian returns are the
-S\&P/ASX All Ordinaries index from 1984, with dividends added back as the average daily dividend
-return in each calendar month, estimated from the S\&P/ASX 200 total-return and price indices
-(2019--2026). Results with price-only returns are almost identical. All returns are log returns in
-percent. The sample ends on 31 August 2026.
+data library \citep{french_data}; size and industry portfolios come from the same source.
+Australian returns are the S\&P/ASX All Ordinaries price index from 1984 \citep{yahoo}. No free
+daily total-return series covers 1984--2019, and the Reserve Bank of Australia table named in our
+pre-registration no longer reports dividend yields, so the primary series adds back dividends as
+the average daily dividend return in each calendar month, estimated from the S\&P/ASX 200
+total-return and price indices over 2019--2026 (deviation D3, fixed before results were seen).
+
+This approximation cannot matter for the weather tests, for a simple reason. The add-back is a
+deterministic function of the calendar month, so it can bias a weather coefficient only through
+a correlation between the weather anomaly and the calendar month. Our anomalies are deseasonalised
+by week of year, which makes that correlation close to zero by construction: $-0.006$ for cloud and
+$-0.011$ for temperature. Appendix Table~\ref{tab:checks} confirms this directly. Every Australian
+weather coefficient is unchanged, to within 0.1 bp, with price-only returns or with calendar-month
+fixed effects, which absorb any month-specific add-back exactly. The one test that is seasonal by
+design, SAD (H3), does depend on the add-back: $-1.4$ bp with dividends and $-0.4$ bp without.
+Neither version is significant, and both have the wrong sign, so the conclusion is the same. All
+returns are log returns in percent, and the sample ends on 31 August 2026.
 
 \paragraph{Weather.} Hourly observations come from NOAA's Global Historical Climatology Network
-hourly data set for New York LaGuardia (with JFK filling gaps) and from NOAA's Integrated Surface
-Database and the Iowa Environmental Mesonet METAR archive for Sydney Airport. Cloud cover is total
+hourly data set \citep{ghcnh} for New York LaGuardia (with JFK filling gaps), and from NOAA's
+Integrated Surface Database \citep{smith2011} and the Iowa Environmental Mesonet METAR archive
+\citep{iem} for Sydney Airport. Cloud cover is total
 sky cover in oktas, and temperature is air temperature; both are averaged over 06:00--16:00 local
 time, following \citet{hirshleifer2003}. Each variable is deseasonalised against a trailing
 30-year climatology for the same ISO week, using only earlier years, and standardised. The
 resulting anomalies are available from 1955 in New York and 1984 in Sydney. For placebo cities,
 alternative cities and a single-source robustness check we use the ERA5 reanalysis
-\citep{hersbach2020} from the Copernicus Climate Data Store, processed identically. ERA5 cloud cover
+\citep{hersbach2020}, point time series from the Copernicus Climate Data Store
+\citep{c3s_timeseries}, processed identically. Exact definitions are in
+Appendix~\ref{app:implementation}. ERA5 cloud cover
 correlates 0.85 with the LaGuardia station series at the daily frequency.
 
 \paragraph{Seasonal variables.} Night length is computed astronomically for each exchange city's
@@ -147,13 +163,17 @@ regressions also control for the most recent completed US return, because the Ne
 closes before Sydney opens. Standard errors are Newey--West with five lags \citep{newey1987}.
 Multiplicity across the nine tests is handled with the Holm procedure \citep{holm1979}, with a
 Romano--Wolf stepdown \citep{romano2005} based on a joint stationary bootstrap \citep{politis1994}
-as robustness.
+as robustness. Bandwidths, bootstrap settings, random seeds, the handling of missing data and
+holidays, and the exact standardisation formula are given in Appendix~\ref{app:implementation}.
+Every table and figure can be regenerated from the raw downloads with a single command
+(\texttt{make all}).
 
 The placebo-city test re-estimates each weather regression 100 times, each time using ERA5 cloud or
 temperature anomalies for a different city more than 1,000 km from both New York and Sydney (the
 list was fixed in the pre-registration). The real city is re-estimated with ERA5 data as well, so
-the comparison is like for like, and we report the share of placebo coefficients at least as
-extreme. A second placebo shifts the real station's weather series by $k=1,\dots,30$ years. This
+the comparison is like for like. We report the number of placebo coefficients at least as extreme.
+With 100 placebo cities, the resolution of this test is one percentage point, so ``0/100'' means an
+empirical placebo percentile below 1\%, not a probability of zero. A second placebo shifts the real station's weather series by $k=1,\dots,30$ years. This
 preserves seasonality exactly and breaks only the day-to-day link.
 
 \section{Results}
@@ -180,8 +200,8 @@ bp (95\% CI $[-3.7,-0.6]$). The Holm-adjusted $p$-value is 0.029 and the Romano-
 beyond every placebo city. None of the 30 year-shifted series produces a coefficient as negative
 either.
 
-In Australia the Sydney cloud coefficient has the same sign and similar size ($-1.8$ bp) and lies
-in the 2\% tail of its placebo distribution, but it does not survive the Holm correction, so H1-AU
+In Australia the Sydney cloud coefficient has the same sign and similar size ($-1.8$ bp), and only
+2 of 100 placebo cities are as extreme, but it does not survive the Holm correction, so H1-AU
 is inconclusive.
 
 \input{tables/paper_primary}
@@ -246,9 +266,11 @@ Table~\ref{tab:strategy} asks whether the effect can be traded. Using the SPY ex
 from 1993, we hold the market from open to close only on days whose early-morning (06:00--10:00)
 New York cloud cover is below normal. The open-to-close return on sunny mornings exceeds that on
 cloudy mornings by only 0.3 bp per day ($t=0.13$). With a 1 bp round-trip cost, every variant
-loses money. The New York effect, although statistically robust over seven decades, is far too
-small to trade. This is consistent with the conclusion of \citet{hirshleifer2003} and with its
-survival as an anomaly.
+loses money. This specified cloud-timed SPY strategy is therefore not profitable after plausible
+round-trip transaction costs. We have not searched over other implementations (futures, other
+markets, other weather signals), and we do not claim that no weather-based strategy could ever be
+profitable. The result is consistent with the conclusion of \citet{hirshleifer2003} that the
+effect is too small to trade.
 
 \input{tables/paper_strategy}
 
@@ -258,9 +280,11 @@ survival as an anomaly.
 \subsection{Design}
 
 Study~2 was pre-registered (\texttt{prereg/study2\_preregistration.md}) after Study~1 was
-complete, and frozen before any return from the new exchanges was examined. It covers every major
-exchange whose benchmark index has free daily history from 2006 or earlier with fewer than 5\%
-zero-change days: twelve in Europe, nine in Asia, four in the Americas and one in New Zealand. New
+complete, and frozen before any return from the new exchanges was examined. We began with a list
+of 37 national benchmark indices and kept the 26 whose free daily history starts by 2006 and has
+fewer than 5\% zero-change days: twelve in Europe, nine in Asia, four in the Americas and one in
+New Zealand. Appendix~\ref{app:exchanges} gives the eligibility algorithm, the full candidate list
+and the reason for each exclusion. New
 York and Sydney are excluded from the primary tests because their results were already known. For
 every city, seven weather variables come from ERA5 and are processed identically: mean cloud cover,
 solar radiation (``sunshine''), temperature, wind speed, relative humidity and sea-level pressure,
@@ -276,7 +300,8 @@ away, 200 times.
 
 Table~\ref{tab:s2primary} reports the nine primary tests. Rain is supported: a rain day lowers
 returns by 1.6\% of a daily standard deviation (about 1.6 bp at the median volatility; Holm
-$p=0.045$), and no placebo assignment produces an effect as large. High pressure (+1.0 bp per
+$p=0.045$), and none of the 200 placebo assignments produces an effect as large (empirical
+percentile below 0.5\%). High pressure (+1.0 bp per
 standard deviation, Holm $p=0.070$), sunshine (+0.6 bp), cloud ($-0.4$ bp) and humidity ($-0.4$ bp)
 all lie in the extreme tail of their placebo distributions but do not survive the Holm correction,
 so they are inconclusive. Their signs are consistent: fair weather goes with higher returns.
@@ -289,10 +314,12 @@ the middle of its placebo distribution.
 
 \input{tables/paper_s2_primary}
 
-Table~\ref{tab:s2splits} and Figure~\ref{fig:s2decay} show why. Every fair-weather effect is
-concentrated in the period before July 2003. The rain coefficient falls from $-3.8\%$ of a standard
+Table~\ref{tab:s2splits} and Figure~\ref{fig:s2decay} show why. The evidence for every
+fair-weather effect comes mainly from the period before July 2003. The rain coefficient falls from $-3.8\%$ of a standard
 deviation ($t=-3.9$) to $-0.3\%$ ($t=-0.4$), sunshine from $+1.8\%$ ($t=4.2$) to $-0.1\%$, and cloud
 from $-1.2\%$ ($t=-2.6$) to zero. Pressure declines least, from $+1.5\%$ to $+0.7\%$ ($t=1.5$). The
+post-2003 intervals are wide enough that smaller persistent effects cannot be excluded; what the
+data show is that the effects are not detectable after 2003, not that they are exactly zero. The
 effects are found in developed rather than emerging markets and in the northern hemisphere. When all
 seven variables enter one regression, only pressure remains significant ($t=2.1$). This suggests
 that the fair-weather pattern reflects high-pressure weather systems more than any single
@@ -322,10 +349,31 @@ Benjamini--Hochberg false-discovery rate of 10\% across all 196 tests.}
 \label{fig:s2heatmap}
 \end{figure}
 
+\section{Identification and limitations}
+\label{sec:limits}
+
+Weather is determined outside financial markets, so reverse causality is not a concern. But our
+regressions identify an \emph{association} between local weather and returns, not the channel that
+produces it. At least three channels are consistent with the results: investor mood, the one the
+original literature proposed; physical effects on cash flows, which our industry results support
+for temperature (oil and utilities); and weather-driven changes in local activity or attention,
+such as fewer trades on rainy days. We do not separate these.
+
+Several further limitations should be kept in mind. First, post-publication tests have limited
+power: the post-2003 US cloud interval $[-5.2,+1.3]$ bp is consistent with both persistence and
+disappearance. Second, ERA5 reanalysis and station records measure weather with error, which
+biases coefficients towards zero. Third, Study~2 uses price indices, and the Australian total
+return is approximated (Section~3). Fourth, the placebo tests have a resolution of 1/100 (Study~1)
+and 1/200 (Study~2), and cities that share weather systems, such as those in Europe, provide less
+independent evidence than their number suggests. Fifth, the Study~2 candidate list was compiled by
+the author, although it was fixed before any of its returns were examined. Finally, both
+pre-registrations were written and time-stamped by the author in version control. Their
+credibility rests on the public commit history.
+
 \section{Discussion and conclusion}
 
-Pre-registration and placebo inference change how the old weather results should be read. The
-New York cloud effect is not an artefact of specification search. It replicates, survives
+Pre-registration and placebo inference change how the old weather results should be read. In our
+data, the New York cloud association is not an artefact of specification search. It replicates, survives
 multiplicity adjustment, and is more extreme than the same statistic computed with the weather of
 every one of 100 unrelated cities. But it is small, and most of the evidence for it comes from
 before 2007. After publication the US estimate is similar in size but imprecise, and the
@@ -333,15 +381,17 @@ Australian estimate is close to zero, with a confidence interval tight enough to
 of the size originally reported. The SAD cycle does not appear in Australia, and temperature
 matters only for industries whose cash flows depend on it. Study~2 generalises the picture. Across
 26 further exchanges, fair weather (no rain, high pressure, sunshine) went with higher returns,
-and rain survives the full pre-registered decision rule. But these effects are concentrated before
-2003, and the international cloud effect of \citet{hirshleifer2003} does not survive out of
-sample.
+and rain survives the full pre-registered decision rule. But the evidence for these effects comes
+mainly from before 2003, and the international cloud effect of \citet{hirshleifer2003} is not
+detectable out of sample.
 
-A cautious reading is that a genuine but small mood effect existed when trading was concentrated
-among people who experienced the local weather, and that it has faded as trading dispersed
-geographically and algorithmically. The decline in the Sydney coefficient and the near-zero New
-York estimates in windows after 2005 fit this reading, although our direct market-structure test
-(H5) is too imprecise to confirm it. Future work could use investor-location data
+One possible interpretation is that the historical association reflected a localised mood channel,
+which mattered when trading was concentrated among people who experienced the local weather and
+has weakened as trading dispersed geographically and algorithmically. The decline in the Sydney
+coefficient, the near-zero New York estimates in windows after 2005, and the concentration of the
+Study~2 effects before 2003 fit this interpretation. However, our direct market-structure test (H5)
+is too imprecise to confirm it, and the evidence is equally consistent with the other channels
+discussed in Section~\ref{sec:limits}. Future work could use investor-location data
 \citep{goetzmann2015} or intraday data around the electronic-trading transitions to sharpen the
 test.
 
@@ -354,6 +404,7 @@ test.
 \input{tables/paper_robust_seasonal}
 \input{tables/paper_robust_structure}
 \input{tables/paper_robust_industry}
+\input{tables/paper_checks}
 
 \clearpage
 \section{Deviations from the pre-registration}
@@ -366,5 +417,86 @@ alone, because no placebo can be defined for an astronomical variable. D5: ERA5 
 Copernicus Climate Data Store rather than a rate-limited third-party API. D6 is a bug fix made after
 results were seen: the year-shifted placebo had dropped non-matching weekdays. It affects only that
 secondary statistic; both versions are archived.
+
+\clearpage
+\section{Study 2 exchange selection}
+\label{app:exchanges}
+
+The candidate list was compiled before any Study~2 return was examined. It contains the main
+national benchmark index of 37 exchanges in developed and large emerging markets for which we
+could identify a Yahoo Finance ticker. An exchange is eligible if:
+\begin{enumerate}
+\item its index has daily closing levels on Yahoo Finance starting on or before 2006-01-01;
+\item the series continues through August 2026; and
+\item fewer than 5\% of its daily closes are unchanged from the previous close (a marker of stale
+prices).
+\end{enumerate}
+New York and Sydney are carried over from Study~1 and excluded from the primary tests. The
+26 eligible exchanges are listed in Section~\ref{sec:study2}. The 11 excluded candidates, and the
+reasons, are: Stockholm (\texttt{\^{}OMX}, history from 2008), Copenhagen (\texttt{\^{}OMXC25},
+2016), Helsinki (\texttt{\^{}OMXH25}, 2013), Oslo (\texttt{OSEBX.OL}, 2013), Lisbon
+(\texttt{PSI20.LS}, 2013), Johannesburg (\texttt{\^{}J203.JO}, 2012), Tel Aviv
+(\texttt{\^{}TA125.TA}, 16\% zero-change days), and Bangkok (\texttt{\^{}SET.BK}), Manila
+(\texttt{PSEI.PS}), Santiago (\texttt{\^{}IPSA}) and Cairo (\texttt{\^{}CASE30}), which have no usable
+daily history.
+
+\section{Implementation details}
+\label{app:implementation}
+
+\paragraph{Daily weather.} Hourly station reports are first averaged within each clock hour, so
+that special reports do not receive extra weight. The daily value is then the mean over local clock
+hours $[06{:}00, 16{:}00)$, with time zones and daylight saving from the IANA database. Station days
+with fewer than three valid hours are missing (deviation D2). ERA5 series are complete. For ERA5
+accumulations (solar radiation, precipitation), the value stamped $t$ covers the hour $[t-1,t)$ and
+is assigned to that hour, so the daily window sums the hours ending 07:00--16:00.
+
+\paragraph{Climatology and standardisation.} For a daily variable $X_{d}$ on day $d$ with ISO week
+$w(d)$ (week 53 merged into week 52) and year $y(d)$, let
+$\mathcal{C}_d=\{d' : w(d')=w(d),\; y(d)-30 \le y(d') \le y(d)-1\}$. The anomaly is
+\[
+z_d = \frac{X_d - \bar X_{\mathcal{C}_d}}{s_{\mathcal{C}_d}},
+\]
+where $\bar X$ and $s$ are the sample mean and standard deviation over $\mathcal{C}_d$. The anomaly
+is missing unless $\mathcal{C}_d$ contains at least five distinct years. It therefore uses no
+information from year $y(d)$ or later. The Study~2 rain variable is the indicator
+$\mathbf{1}\{P_d\geq 1\,\mathrm{mm}\}$ minus its mean over $\mathcal{C}_d$ (not scaled). The
+replication in Table~\ref{tab:replication} instead uses a full-sample week-of-year mean and standard
+deviation, as in \citet{hirshleifer2003}.
+
+\paragraph{Missing data.} Regressions use listwise deletion: a day enters a regression only if the
+return, its two lags and every regressor are observed. Nothing is imputed.
+
+\paragraph{Calendar controls.} A trading day is pre-holiday (post-holiday) if at least one weekday
+with no trading follows (precedes) it before the next (previous) trading day. Holidays are
+therefore inferred from each index's own trading calendar. Half-days and early closes cannot be
+identified in the data and are treated as ordinary trading days. The turn-of-year dummy covers the
+last trading day of December and the first five of January, and the tax-year-end dummy the last five
+trading days of December (US) or June (Australia).
+
+\paragraph{Standard errors.} Newey--West errors use a Bartlett kernel with five lags, one trading
+week. Daily index returns have little serial correlation, and Table~\ref{tab:checks} shows the H1-US
+$t$-statistic moves from $-2.72$ to $-2.61$ with 20 lags. Driscoll--Kraay errors sum the regression
+scores across exchanges on each date and apply the same Bartlett kernel with five lags to the
+resulting time series (S6 $t$-statistic $-2.58$ with 5 lags, $-2.66$ with 20).
+
+\paragraph{Romano--Wolf.} 5,000 replications of a joint stationary bootstrap with mean block length
+10 trading days (seed 20260927), resampling the union of all test dates so that dependence across
+tests is preserved. For test $j$ the bootstrap statistic is
+$\delta_j(\hat\beta^{*}_j-\hat\beta_j)/\widehat{\mathrm{se}}_j$, where $\delta_j$ is the predicted
+sign and $\widehat{\mathrm{se}}_j$ the original HAC standard error, followed by the usual stepdown.
+
+\paragraph{Placebos.} In Study~1 every one of the 100 pre-registered placebo cities is used once (a
+census, not a sample). The year-shifted placebo uses the full calendar-day weather series shifted
+by $k=1,\dots,30$ years (deviation D6). In Study~2 each of 200 draws (seed 20260928) assigns every
+exchange a city drawn uniformly, with replacement, from the placebo cities that host no Study~2
+exchange and lie more than 1,000 km from that exchange. The same city may therefore be assigned to
+several exchanges in one draw.
+
+\paragraph{Study 2 returns.} Exchange-days with $|r|>20\%$ or an exactly zero return are dropped.
+The scaling volatility $\sigma_{i,t-1}$ is the standard deviation of the previous 60 returns (at
+least 40), so it uses only information available before day $t$.
+
+\paragraph{Software.} Python 3.12 with NumPy, pandas, statsmodels and arch. All code, the
+pre-registrations and the deviation log are in the repository.
 
 \end{document}

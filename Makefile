@@ -18,6 +18,7 @@ primary: data
 
 robust: data
 	uv run python -W ignore -m weather.studies.s03_robustness
+	uv run python -W ignore -m weather.studies.s07_referee_checks
 
 figures: data
 	uv run python -W ignore -m weather.studies.s04_figures
